@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Interface</title>
+  <style>
+    :root {
+      --my-theme-black: black;
+      --my-theme-white: white;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      background-color: var(--my-theme-black);
+      color: var(--my-theme-white);
+      margin: 0;
+      padding: 10px 0;
+    }
+    div#whole {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: var(--my-theme-white);
+    }
+    div#messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    div.me {
+      text-align: left;
+      background-color: var(--my-theme-black);
+      color: var(--my-theme-white);
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 10px;
+      width: fit-content;
+      max-width: 70%;
+    }
+    div.you {
+      text-align: right;
+      background-color: var(--my-theme-black);
+      color: var(--my-theme-white);
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 10px;
+      width: fit-content;
+      max-width: 70%;
+      margin-left: auto;
+    }
+    input#input {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Talk to Strangers</h1>
+  <button type="submit" onclick="toggleTheme()"><h3>Toggle Theme</h3></button>
+  <div id="whole">
+    <div id="messages">
+        <div class="me">Message from me</div>
+        <div class="you">Message from you</div>
+    </div>
+    <input type="text" id="input" placeholder="Type a message...">
+    <script>
+      var black_var = "--my-theme-black";
+      var white_var = "--my-theme-white";
+
+      function toggleTheme() {
+        let black = getComputedStyle(document.documentElement).getPropertyValue(black_var);
+        let white = getComputedStyle(document.documentElement).getPropertyValue(white_var);
+        console.log(black);
+        console.log(white);
+        document.documentElement.style.setProperty(black_var, white);
+        document.documentElement.style.setProperty(white_var, black);
+      }
+    </script>
+    <script>
+      document.getElementById('input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          let inputField = document.getElementById('input');
+          let message = inputField.value.trim();
+          if (message !== '') {
+            let messageContainer = document.createElement('div');
+            messageContainer.className = 'me';
+            messageContainer.textContent = message;
+  
+            document.getElementById('messages').appendChild(messageContainer);
+            inputField.value = '';
+            inputField.focus();
+            
+            // Scroll to the bottom of the messages container
+            document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+          }
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>
